@@ -1,7 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
 
-from .models import Message
+from .models import Message, Note
+from .serializers import NoteSerializer
 
 
 class HealthView(APIView):
@@ -12,3 +14,13 @@ class HealthView(APIView):
             "status": "ok",
             "message": message.text if message else "No message found"
         })
+
+
+class NoteListCreateView(generics.ListCreateAPIView):
+    queryset = Note.objects.all().order_by("-created_at")
+    serializer_class = NoteSerializer
+
+
+class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
