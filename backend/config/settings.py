@@ -163,3 +163,18 @@ STATIC_URL = "static/"
 # -----------------------------------------------------------------------------
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": (
+            f"redis://{os.getenv('REDIS_HOST')}:"
+            f"{os.getenv('REDIS_PORT')}/"
+            f"{os.getenv('REDIS_DB')}"
+        ),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
